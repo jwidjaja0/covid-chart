@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Line Chart</title>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://www.google.com/jsapi"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="functions.js"></script>
     <script>
@@ -60,6 +64,10 @@
         });
         google.charts.setOnLoadCallback(drawMyChart);
 
+        // google.charts.load('current', {
+        //     callback:drawMyChart()
+        // })
+
         function drawMyChart() {
             var arr = countries.slice();
             arr.unshift('Day'); //add day to array, so country name matches exactly what was on the request
@@ -79,25 +87,75 @@
                 data.addRows(new Array(row));
             }
 
+
             var options = {
-                chart: {
-                    title: 'Death since ' + dateStart,
+                //colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
+                // title: 'Death since ' + dateStart
+                // chart: {
+                //     title: 'Death since ' + dateStart,
+                //
+                // },
+                chartArea: {
+                    width: '90%'
                 },
-                width: 1000,
-                height: 800
+                height: 600,
+                legend: {
+                    position: 'bottom',
+                    textStyle: {
+                        color: 'black',
+                        fontSize: 16
+                    }
+                },
+                pointSize: 30,
+                theme: 'material',
+                title: 'Death since ' + dateStart,
+                vAxis: {
+                    viewWindow: {
+                        min: 0
+                    }
+                },
+                width: '100%'
             };
 
             var chart = new google.charts.Line(document.getElementById('linechart_material'));
             chart.draw(data, google.charts.Line.convertOptions(options));
+            //chart.draw(data, options);
         }
+        $(window).resize(function(){
+            drawMyChart();
+        });
+
     </script>
 
 </head>
 
 <body>
-    <div id="linechart_material"></div>
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <hr />
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-md-12">
+        <div id="linechart_material" class="chart"></div>
+    </div>
+    <div class="col-md-6">
+        <div id="chart_div2" class="chart"></div>
+    </div>
+</div>
 
 
+
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 
 </html>

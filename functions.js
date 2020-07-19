@@ -4,3 +4,5 @@ function Get(yourUrl){
     Httpreq.send(null);
     return Httpreq.responseText;
 }
+
+
