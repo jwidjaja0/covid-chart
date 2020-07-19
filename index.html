@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="en">
 
@@ -9,17 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Line Chart</title>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="functions.js"></script>
     <script>
 
-        function Get(yourUrl){
-            var Httpreq = new XMLHttpRequest(); // a new request
-            Httpreq.open("GET",yourUrl,false);
-            Httpreq.send(null);
-            return Httpreq.responseText;
-        }
-
         //list of countries interested
-        var countries = ['USA', 'Sweden', 'Italy', 'South Korea', 'South Africa'];
+        var countries = ['USA', 'UK', 'Sweden', 'Italy', 'South Korea', 'South Africa'];
 
         //Create 2D array, first layer: countries, second: deaths for each countries per day
         var allDeaths = new Array(countries.length);
@@ -34,7 +26,7 @@
             redirect: 'follow'
         };
         var baseUrl = 'https://api.covid19api.com';
-        var dateStart = '2020-03-15';
+        var dateStart = '2020-03-01';
         var dateEnd = '2020-07-18';
 
         //indicator to populate date array, only once (first iteration), set true after so subsequent population will ignore date.
