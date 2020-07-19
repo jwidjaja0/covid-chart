@@ -19,8 +19,8 @@
         }
 
         //list of countries interested
-        var countries = ['usa', 'sweden', 'italy', 'south-korea'];
-        // var countries = ['usa', 'sweden'];
+        var countries = ['USA', 'Sweden', 'Italy', 'South Korea', 'South Africa'];
+
         //Create 2D array, first layer: countries, second: deaths for each countries per day
         var allDeaths = new Array(countries.length);
         for(var i =0; i < allDeaths.length; i++){
@@ -37,6 +37,10 @@
         var dateStart = '2020-03-15';
         var dateEnd = '2020-07-18';
 
+        //indicator to populate date array, only once (first iteration), set true after so subsequent population will ignore date.
+        var isDateParsed = false;
+        var dateArr = new Array();
+
         for(var a = 0; a < allDeaths.length; a++){
             var country = countries[a];
             var url = baseUrl + "/total/country/" + country + "?from=" + dateStart + "&to=" + dateEnd;
@@ -46,19 +50,18 @@
             var deathArr = new Array();
             for(var i = 0; i < jsonObj.length; i++){
                 var obj = jsonObj[i];
-                //deathArr.push(obj.Deaths);
                 allDeaths[a].push(obj.Deaths);
+
+                if(!isDateParsed){
+                    var date1 = obj.Date;
+                    // date1 = date1.substring(0,10);
+                    dateArr.push(date1);
+                }
             }
-            //allDeaths[a].push(deathArr);
+            isDateParsed = true;
         }
 
-        var arr1 = countries;
-        arr1.unshift('date');
-
         console.log(allDeaths);
-
-
-
 
         google.charts.load('current', {
             'packages': ['line']
@@ -66,80 +69,35 @@
         google.charts.setOnLoadCallback(drawMyChart);
 
         function drawMyChart() {
-            var arr = ['Day', 'USA', 'Sweden', 'Italy', 'South Korea'];
+            var arr = countries.slice();
+            arr.unshift('Day'); //add day to array, so country name matches exactly what was on the request
 
             var data = new google.visualization.DataTable();
-            data.addColumn('number', arr[0]);
-            data.addColumn('number', arr[1]);
-            data.addColumn('number', arr[2]);
-            data.addColumn('number', arr[3]);
-            data.addColumn('number', arr[4]);
+            data.addColumn('date', arr[0]);
+            for(var b = 1; b < arr.length; b++){
+                data.addColumn('number', arr[b]);
+            }
 
-
-            //TODO: fix, source array was changed from 1d to 2d
             for(var i = 0; i < allDeaths[0].length; i++){
-                data.addRows([
-                    //data array has no date, so index starts at 0
-                    [i, allDeaths[0][i], allDeaths[1][i], allDeaths[2][i], allDeaths[3][i]]
-                ])
+                var row = new Array();
+                row.push(new Date(dateArr[i]));
+                for(var c = 0; c < allDeaths.length; c++){
+                    row.push(allDeaths[c][i]);
+                }
+                data.addRows(new Array(row));
             }
 
             var options = {
                 chart: {
                     title: 'Death since ' + dateStart,
                 },
-                width: 900,
-                height: 500
+                width: 1000,
+                height: 800
             };
 
             var chart = new google.charts.Line(document.getElementById('linechart_material'));
             chart.draw(data, google.charts.Line.convertOptions(options));
         }
-
-
-        // google.charts.load('current', {
-        //     'packages': ['line']
-        // });
-        // google.charts.setOnLoadCallback(drawChart);
-        //
-        // function drawChart() {
-        //
-        //     var data = new google.visualization.DataTable();
-        //     data.addColumn('number', 'Day');
-        //     data.addColumn('number', 'Guardians of the Galaxy');
-        //     data.addColumn('number', 'The Avengers');
-        //     data.addColumn('number', 'Transformers: Age of Extinction');
-        //
-        //     data.addRows([
-        //         [1, 37.8, 80.8, 41.8],
-        //         [2, 30.9, 69.5, 32.4],
-        //         [3, 25.4, 57, 25.7],
-        //         [4, 11.7, 18.8, 10.5],
-        //         [5, 11.9, 17.6, 10.4],
-        //         [6, 8.8, 13.6, 7.7],
-        //         [7, 7.6, 12.3, 9.6],
-        //         [8, 12.3, 29.2, 10.6],
-        //         [9, 16.9, 42.9, 14.8],
-        //         [10, 12.8, 30.9, 11.6],
-        //         [11, 5.3, 7.9, 4.7],
-        //         [12, 6.6, 8.4, 5.2],
-        //         [13, 4.8, 6.3, 3.6],
-        //         [14, 4.2, 6.2, 3.4]
-        //     ]);
-        //
-        //     var options = {
-        //         chart: {
-        //             title: 'Box Office Earnings in First Two Weeks of Opening',
-        //             subtitle: 'in millions of dollars (USD)'
-        //         },
-        //         width: 900,
-        //         height: 500
-        //     };
-        //
-        //     var chart = new google.charts.Line(document.getElementById('linechart_material'));
-        //
-        //     chart.draw(data, google.charts.Line.convertOptions(options));
-        //}
     </script>
 
 </head>
