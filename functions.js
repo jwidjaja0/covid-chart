@@ -1,3 +1,13 @@
+//list of countries interested
+var countries = ['USA', 'UK', 'Sweden', 'Italy', 'South Korea', 'South Africa'];
+var dateStart = '2020-03-01';
+
+var today = new Date();
+var dateEnd = today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate();
+
+var allDeaths = new Array(countries.length);
+var dateArr = [];
+
 function Get(yourUrl){
     var Httpreq = new XMLHttpRequest(); // a new request
     Httpreq.open("GET",yourUrl,false);
@@ -11,64 +21,54 @@ $(window).resize(function(){
 
 function updateCountries(){
     countries = $('#listCountries').val();
+    allDeaths = new Array(countries.length);
+    console.log(countries);
     drawChart();
 }
 
 function populateData(){
+    for(var i =0; i < allDeaths.length; i++){
+        allDeaths[i] = [];
+    }
 
-}
-
-
-//list of countries interested
-var countries = ['USA', 'UK', 'Sweden', 'Italy', 'South Korea', 'South Africa'];
-
-//Create 2D array, first layer: countries, second: deaths for each countries per day
-var allDeaths = new Array(countries.length);
-for(var i =0; i < allDeaths.length; i++){
-    allDeaths[i] = [];
-}
-
-var requestOptions = {
-    method: 'GET',
-    redirect: 'follow'
-};
-var baseUrl = 'https://api.covid19api.com';
-var dateStart = '2020-03-01';
-var dateEnd = '2020-07-18';
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+    var baseUrl = 'https://api.covid19api.com';
 
 //indicator to populate date array, only once (first iteration), set true after so subsequent population will ignore date.
-var isDateParsed = false;
+    var isDateParsed = false;
+    for(var a = 0; a < allDeaths.length; a++){
+        var country = countries[a];
+        var url = baseUrl + "/total/country/" + country + "?from=" + dateStart + "&to=" + dateEnd;
 
-var dateArr = [];
+        //Get the json object based on parameters defined above
+        var jsonObj = JSON.parse(Get(url));
 
-for(var a = 0; a < allDeaths.length; a++){
-    var country = countries[a];
-    var url = baseUrl + "/total/country/" + country + "?from=" + dateStart + "&to=" + dateEnd;
+        var deathArr = new Array();
+        for(var i = 0; i < jsonObj.length; i++){
+            var obj = jsonObj[i];
+            allDeaths[a].push(obj.Deaths);
 
-    //Get the json object based on parameters defined above
-    var jsonObj = JSON.parse(Get(url));
-
-    var deathArr = new Array();
-    for(var i = 0; i < jsonObj.length; i++){
-        var obj = jsonObj[i];
-        allDeaths[a].push(obj.Deaths);
-
-        if(!isDateParsed){
-            var date1 = obj.Date;
-            // date1 = date1.substring(0,10);
-            dateArr.push(date1);
+            if(!isDateParsed){
+                var date1 = obj.Date;
+                // date1 = date1.substring(0,10);
+                dateArr.push(date1);
+            }
         }
+        isDateParsed = true;
     }
-    isDateParsed = true;
 }
+
 
 google.charts.load('current', {packages: ['corechart', 'line', 'table']});
 google.charts.setOnLoadCallback(function() {
     drawChart()
 });
-//google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
+    populateData();
     var arr = countries.slice();
     arr.unshift('Day'); //add day to array, so country name matches exactly what was on the request
 
@@ -77,7 +77,6 @@ function drawChart() {
     for(var b = 1; b < arr.length; b++){
         data.addColumn('number', arr[b]);
     }
-
     for(var i = 0; i < allDeaths[0].length; i++){
         var row = new Array();
         row.push(new Date(dateArr[i]));
@@ -86,8 +85,6 @@ function drawChart() {
         }
         data.addRows(new Array(row));
     }
-
-
     var options = {
         legend: {position: 'bottom'},
         title: 'Total deaths since ' + dateStart,
@@ -99,5 +96,5 @@ function drawChart() {
     chart.draw(data, options);
 
     var table = new google.visualization.Table(document.getElementById('table_div'));
-    table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+    table.draw(data, {showRowNumber: false, width: '100%', height: '100%'});
 }
