@@ -107,6 +107,13 @@ function drawChart() {
     var chart = new google.visualization.LineChart(document.getElementById('linechart_material'));
     chart.draw(data, options);
 
+    // var view = new google.visualization.DataView(data);
+    // view.setRows(data.getSortedRows({column:0, desc:true}))
+
     var table = new google.visualization.Table(document.getElementById('table_div'));
-    table.draw(data, {showRowNumber: false, width: '100%', height: '100%'});
+    table.draw(data, {
+        showRowNumber: false,
+        width: '100%',
+        height: '100%',
+        sortAscending: 'false'});
 }
