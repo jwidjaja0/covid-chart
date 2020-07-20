@@ -1,8 +1,11 @@
-.chart {
-    width: 100%;
-    min-height: 450px;
+.heading{
+    border: solid 10px purple;
+    text-align: center;
 }
-.row {
-    margin:0 !important;
+
+h1{
+    color: red;
 }
+
+
 

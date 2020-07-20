@@ -1,9 +1,23 @@
+//TODO:Think about caching
+
 //list of countries interested
 var countries = ['USA', 'UK', 'Sweden', 'Italy', 'South Korea', 'South Africa'];
-var dateStart = '2020-03-01';
 
+var dateStart = '2020-03-15';
+//app will get data up to today's date
 var today = new Date();
-var dateEnd = today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate();
+var month = today.getMonth();
+
+if(month < 10){
+    month = '0' + month;
+}
+var day = today.getDate();
+if(day < 10){
+    day = '0' + day;
+}
+
+var dateEnd = today.getFullYear() + "-" + month + "-" + day;
+// var dateEnd = '2020-07-01';
 
 var allDeaths = new Array(countries.length);
 var dateArr = [];
@@ -22,7 +36,6 @@ $(window).resize(function(){
 function updateCountries(){
     countries = $('#listCountries').val();
     allDeaths = new Array(countries.length);
-    console.log(countries);
     drawChart();
 }
 
@@ -37,11 +50,12 @@ function populateData(){
     };
     var baseUrl = 'https://api.covid19api.com';
 
-//indicator to populate date array, only once (first iteration), set true after so subsequent population will ignore date.
+    //indicator to populate date array, only once (first iteration), set true after so subsequent population will ignore date.
     var isDateParsed = false;
     for(var a = 0; a < allDeaths.length; a++){
         var country = countries[a];
         var url = baseUrl + "/total/country/" + country + "?from=" + dateStart + "&to=" + dateEnd;
+        console.log(url);
 
         //Get the json object based on parameters defined above
         var jsonObj = JSON.parse(Get(url));
@@ -89,8 +103,6 @@ function drawChart() {
         legend: {position: 'bottom'},
         title: 'Total deaths since ' + dateStart,
         height: 600
-
-
     };
     var chart = new google.visualization.LineChart(document.getElementById('linechart_material'));
     chart.draw(data, options);
