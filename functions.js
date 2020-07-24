@@ -142,10 +142,17 @@ function populateTable(stat){
 }
 
 function setChart(stat) {
+    var width = $(window).width();
+
+    var legPos = 'right';
+    if(width < 900){
+        legPos = 'bottom';
+    }
+
     var data = populateTable(stat);
 
     var options = {
-        legend: {position: 'right'},
+        legend: {position: legPos},
         title: 'Total ' + stat.toLowerCase() + ' since ' + dateStart,
         height: 600,
         vAxis: {
