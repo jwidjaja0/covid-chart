@@ -65,8 +65,13 @@ class RawData {
 
                 if(!isDateParsed){
                     var date1 = obj.Date;
-                    // date1 = date1.substring(0,10);
-                    this.dateArr.push(date1);
+                    date1 = date1.substring(0,10);
+
+                    var yr = parseInt(date1.substring(0,4));
+                    var mnth = parseInt(date1.substring(5,7));
+                    var dt = parseInt(date1.substring(8,10));
+
+                    this.dateArr.push(new Date(yr, (mnth-1), dt));
                 }
             }
             isDateParsed = true;
@@ -115,7 +120,7 @@ google.charts.setOnLoadCallback(function() {
 
 function populateTable(stat){
     var header = rawData.listCountries.slice();
-    header.unshift('Day'); //add day to array, so country name matches exactly what was on the request
+    header.unshift('Day'); //add day to array, so country name matches exactly what was on the request array
 
     var data = new google.visualization.DataTable();
     data.addColumn('date', header[0]);
@@ -165,43 +170,43 @@ function setChart(stat) {
 
     });
 
-    // var options = {
-    //     legend: {position: legPos},
-    //     title: 'Total ' + stat.toLowerCase() + ' since ' + dateStart,
-    //     height: 600,
-    //     vAxis: {
-    //         title: 'Total ' + stat,
-    //     },
-    //
-    //     hAxis: {
-    //         title: 'Date'
-    //     }
-    // };
+    var options = {
+        legend: {position: legPos},
+        title: 'Total ' + stat.toLowerCase() + ' since ' + dateStart,
+        height: 600,
+        vAxis: {
+            title: 'Total ' + stat,
+        },
+
+        hAxis: {
+            title: 'Date'
+        }
+    };
 
     //test controls
-    var chart = new google.visualization.ChartWrapper({
-        'chartType': 'LineChart',
-        'containerID' : 'linechart',
-        'options' : {
-            'height' : 600,
-            'legend': 'bottom',
-            'vAxis' : {
-                'title': 'Total ' + stat
-            },
-            'hAxis' : {
-                'title': 'Date'
-            }
-        }
-    })
-    dashboard.bind(dateSlider, chart);
-    dashboard.draw(data);
+    // var chart = new google.visualization.ChartWrapper({
+    //     'chartType': 'LineChart',
+    //     'containerID' : 'linechart',
+    //     'options' : {
+    //         'height' : 600,
+    //         'legend': 'bottom',
+    //         'vAxis' : {
+    //             'title': 'Total ' + stat
+    //         },
+    //         'hAxis' : {
+    //             'title': 'Date'
+    //         }
+    //     }
+    // })
+    // dashboard.bind(dateSlider, chart);
+    // dashboard.draw(data);
 
-    //drawChart(data,options);
+    drawChart(data,options);
     //drawTable(data);
 }
 
 function drawChart(data, options){
-    var chart = new google.visualization.LineChart(document.getElementById('linechart_material'));
+    var chart = new google.visualization.LineChart(document.getElementById('linechart'));
     chart.draw(data, options);
 }
 
