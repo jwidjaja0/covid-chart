@@ -175,7 +175,6 @@ google.charts.setOnLoadCallback(function() {
     setChart()
 });
 
-
 function populateTable(){
     var arr = countries.slice();
     arr.unshift('Day'); //add day to array, so country name matches exactly what was on the request
