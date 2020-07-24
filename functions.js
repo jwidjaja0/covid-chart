@@ -162,7 +162,7 @@ function setChart(stat) {
         'options' : {
             'filterColumnLabel': 'date'
         },
-        'state'
+
     });
 
     // var options = {
