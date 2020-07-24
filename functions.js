@@ -105,8 +105,8 @@ function updateStats(){
 }
 
 //list of countries interested
-var countries = ['USA', 'UK', 'Sweden', 'Italy', 'South Korea', 'South Africa',
-                    'Australia'];
+var countries = ['USA', 'UK', 'Sweden', 'Italy', 'South Korea', 'Brazil', 'India', 'Spain'
+                    ];
 
 var dateStart = '2020-03-15';
 var rawData = new RawData(countries, dateStart, "");
