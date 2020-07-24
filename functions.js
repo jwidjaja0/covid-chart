@@ -134,7 +134,8 @@ function populateTable(stat){
     //Populate data
     for(var i = 0; i < rawData.numberPoints; i++){
         var row = [];
-        row.push(new Date(rawData.dateArr[i]));
+        // row.push(new Date(rawData.dateArr[i]));
+        row.push(rawData.dateArr[i]);
 
         //for each country
         for(var c = 0; c < all.length; c++){
@@ -156,19 +157,18 @@ function setChart(stat) {
 
     var data = populateTable(stat);
 
-    //Test controls, create dashboard
-    var dashboard = new google.visualization.Dashboard(
-        document.getElementById("dashboard_div"));
+    // //Test controls, create dashboard
+    // var dashboard = new google.visualization.Dashboard(
+    //     document.getElementById("dashboard_div"));
 
-    //create range slider, passing options
-    var dateSlider = new google.visualization.ControlWrapper({
-        'controlType' : 'DateRangeFilter',
-        'containerID' : 'filter_div',
-        'options' : {
-            'filterColumnLabel': 'date'
-        },
-
-    });
+    // //create range slider, passing options
+    // var dateSlider = new google.visualization.ControlWrapper({
+    //     'controlType' : 'DateRangeFilter',
+    //     'containerID' : 'filter_div',
+    //     'options' : {
+    //         'filterColumnLabel': 'date'
+    //     },
+    // });
 
     var options = {
         legend: {position: legPos},
