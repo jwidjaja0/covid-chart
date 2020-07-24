@@ -3,10 +3,11 @@
 //TEST CLASS
 class RawData {
     constructor(listCountries, startDate, endDate) {
-        this.listCountries = listCountries; //arrays
+        this.listCountries = listCountries; //array
         this.startDate = startDate; //string
         this.endDate = endDate;
 
+        //hack for default parameter, if blank, sets to today's date..
         if(endDate == ""){
             var today = new Date();
             var month = 1+today.getMonth();
@@ -35,6 +36,7 @@ class RawData {
         }
 
         this.getData();
+        this.numberPoints = this.Deaths[0].length;
         console.log("end of constructor raw data");
     } //constructor
 
@@ -101,32 +103,16 @@ function updateStats(){
 var countries = ['USA', 'UK', 'Sweden', 'Italy', 'South Korea', 'South Africa'];
 
 var dateStart = '2020-03-15';
-//app will get data up to today's date
 
 var stats = "Death";
 
-google.charts.load('current', {packages: ['corechart', 'line', 'table']});
 var rawData = new RawData(countries, dateStart, "");
 
 google.charts.load('current', {packages: ['corechart', 'line', 'table']});
 google.charts.setOnLoadCallback(function() {
-    console.log("gchart setonload");
-    // // setChart()
-    //
-    // populateTable(stat);
+    setChart("Deaths")
 });
 
-$( document ).ready(function() {
-    // console.log('ready to draw');
-});
-
-//populateTable("Deaths");
-
-pop("Deaths");
-
-function pop(stat){
-    var data = new google.visualization.DataTable();
-}
 
 function populateTable(stat){
     var header = rawData.listCountries.slice();
@@ -139,34 +125,25 @@ function populateTable(stat){
         data.addColumn('number', header[b]);
     }
 
-    // console.log(stat);
-
     var all = rawData[stat];
 
-    // //for Test
-    // console.log(all);
-    // for(var i = 0; i < all[0].length; i++){
-    //     console.log(i);
-    // }
+    //Populate data
+    for(var i = 0; i < rawData.numberPoints; i++){
+        var row = [];
+        row.push(new Date(rawData.dateArr[i]));
 
-    //populate data
-    // for(var i = 0; i < all[0].length; i++){
-    //     var row = [];
-    //     row.push(new Date(dateArr[i]));
-    //
-    //     //for each country
-    //     for(var c = 0; c < all.length; c++){
-    //         row.push(allDeaths[c][i]);
-    //     }
-    //
-    //     data.addRows(new Array(row));
-    // }
-    //
-    // return data;
+        //for each country
+        for(var c = 0; c < all.length; c++){
+            row.push(all[c][i]);
+        }
+        data.addRows(new Array(row));
+    }
+
+    return data;
 }
 
 function setChart(stat) {
-    //var data = populateTable(stat);
+    var data = populateTable(stat);
 
     var options = {
         legend: {position: 'bottom'},
