@@ -35,6 +35,7 @@ class RawData {
         }
 
         this.getData();
+        console.log("end of constructor raw data");
     } //constructor
 
     getData(){
@@ -107,24 +108,25 @@ var stats = "Death";
 google.charts.load('current', {packages: ['corechart', 'line', 'table']});
 var rawData = new RawData(countries, dateStart, "");
 
-//console.log(rawData.totalDeaths)
-
-
-
 google.charts.load('current', {packages: ['corechart', 'line', 'table']});
 google.charts.setOnLoadCallback(function() {
-    // setChart()
-    populateTable(stat);
+    console.log("gchart setonload");
+    // // setChart()
+    //
+    // populateTable(stat);
 });
 
 $( document ).ready(function() {
     // console.log('ready to draw');
-    // google.charts.setOnLoadCallback(function() {
-    //     setChart()
-    // });
 });
 
-populateTable("Deaths");
+//populateTable("Deaths");
+
+pop("Deaths");
+
+function pop(stat){
+    var data = new google.visualization.DataTable();
+}
 
 function populateTable(stat){
     var header = rawData.listCountries.slice();
@@ -164,7 +166,7 @@ function populateTable(stat){
 }
 
 function setChart(stat) {
-    var data = populateTable(stat);
+    //var data = populateTable(stat);
 
     var options = {
         legend: {position: 'bottom'},
