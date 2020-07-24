@@ -3,6 +3,7 @@
 //TEST CLASS
 class RawData {
     constructor(listCountries, startDate, endDate) {
+        listCountries.sort();
         this.listCountries = listCountries; //array
         this.startDate = startDate; //string
         this.endDate = endDate;
@@ -51,7 +52,6 @@ class RawData {
         for(var a = 0; a < this.Deaths.length; a++){
             var country = this.listCountries[a];
             var url = baseUrl + "/total/country/" + country + "?from=" + this.startDate + "&to=" + this.endDate;
-            console.log(url);
 
             //Get the json object based on parameters defined above
             var jsonObj = JSON.parse(this.get(url));
@@ -83,7 +83,7 @@ class RawData {
 
 }
 $(window).resize(function(){
-    setChart();
+    setChart(stat);
 });
 
 function updateCountries(){
@@ -95,23 +95,21 @@ function updateCountries(){
 }
 
 function updateStats(){
-    var stats = $('#stats').val();
-    console.log(stats);
+    stat = $('#stats').val();
+    setChart(stat);
 }
 
 //list of countries interested
-var countries = ['USA', 'UK', 'Sweden', 'Italy', 'South Korea', 'South Africa'];
+var countries = ['USA', 'UK', 'Sweden', 'Italy', 'South Korea', 'South Africa',
+                    'Australia'];
 
 var dateStart = '2020-03-15';
-
-var stats = ["Deaths", "Confirmed", "Recovered", "Active"];
-
-
 var rawData = new RawData(countries, dateStart, "");
+var stat = "Deaths"; //initial stat
 
 google.charts.load('current', {packages: ['corechart', 'line', 'table']});
 google.charts.setOnLoadCallback(function() {
-    setChart(stats[0])
+    setChart("Deaths")
 });
 
 
@@ -148,10 +146,10 @@ function setChart(stat) {
 
     var options = {
         legend: {position: 'bottom'},
-        title: 'Total deaths since ' + dateStart,
+        title: 'Total ' + stat.toLowerCase() + ' since ' + dateStart,
         height: 600,
         vAxis: {
-            title: 'Total Deaths',
+            title: 'Total ' + stat,
         },
 
         hAxis: {
@@ -159,7 +157,7 @@ function setChart(stat) {
         }
     };
     drawChart(data,options);
-    drawTable(data);
+    //drawTable(data);
 }
 
 function drawChart(data, options){
@@ -173,7 +171,7 @@ function drawTable(data){
         showRowNumber: false,
         width: '100%',
         height: '100%',
-        sortAscending: 'false'});
+        });
 }
 
 
