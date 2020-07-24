@@ -145,7 +145,7 @@ function setChart(stat) {
     var data = populateTable(stat);
 
     var options = {
-        legend: {position: 'bottom'},
+        legend: {position: 'right'},
         title: 'Total ' + stat.toLowerCase() + ' since ' + dateStart,
         height: 600,
         vAxis: {
