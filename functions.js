@@ -145,9 +145,9 @@ function setChart(stat) {
     var width = $(window).width();
 
     var legPos = 'right';
-    // if(width < 900){
-    //     legPos = 'bottom';
-    // }
+    if(width < 900){
+        legPos = 'bottom';
+    }
 
     var data = populateTable(stat);
 
