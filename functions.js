@@ -185,9 +185,10 @@ function setChart(stat) {
 
     //test controls
     // var chart = new google.visualization.ChartWrapper({
-    //     'chartType': 'LineChart',
-    //     'containerID' : 'linechart',
-    //     'options' : {
+    //     chartType : 'LineChart',
+    //     containerID : 'linechart',
+    //     dataTable : data,
+    //     options : {
     //         'height' : 600,
     //         'legend': 'bottom',
     //         'vAxis' : {
@@ -198,6 +199,7 @@ function setChart(stat) {
     //         }
     //     }
     // })
+
     // dashboard.bind(dateSlider, chart);
     // dashboard.draw(data);
 
