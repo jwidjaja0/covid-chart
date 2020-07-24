@@ -107,7 +107,7 @@ var dateStart = '2020-03-15';
 var rawData = new RawData(countries, dateStart, "");
 var stat = "Deaths"; //initial stat
 
-google.charts.load('current', {packages: ['corechart', 'line', 'table']});
+google.charts.load('current', {packages: ['corechart', 'line', 'table', 'controls']});
 google.charts.setOnLoadCallback(function() {
     setChart("Deaths")
 });
@@ -151,19 +151,52 @@ function setChart(stat) {
 
     var data = populateTable(stat);
 
-    var options = {
-        legend: {position: legPos},
-        title: 'Total ' + stat.toLowerCase() + ' since ' + dateStart,
-        height: 600,
-        vAxis: {
-            title: 'Total ' + stat,
-        },
+    //Test controls, create dashboard
+    var dashboard = new google.visualization.Dashboard(
+        document.getElementById("dashboard_div"));
 
-        hAxis: {
-            title: 'Date'
+    //create range slider, passing options
+    var dateSlider = new google.visualization.ControlWrapper({
+        'controlType' : 'DateRangeFilter',
+        'containerID' : 'filter_div',
+        'options' : {
+            'filterColumnLabel': 'date'
+        },
+        'state'
+    });
+
+    // var options = {
+    //     legend: {position: legPos},
+    //     title: 'Total ' + stat.toLowerCase() + ' since ' + dateStart,
+    //     height: 600,
+    //     vAxis: {
+    //         title: 'Total ' + stat,
+    //     },
+    //
+    //     hAxis: {
+    //         title: 'Date'
+    //     }
+    // };
+
+    //test controls
+    var chart = new google.visualization.ChartWrapper({
+        'chartType': 'LineChart',
+        'containerID' : 'linechart',
+        'options' : {
+            'height' : 600,
+            'legend': 'bottom',
+            'vAxis' : {
+                'title': 'Total ' + stat
+            },
+            'hAxis' : {
+                'title': 'Date'
+            }
         }
-    };
-    drawChart(data,options);
+    })
+    dashboard.bind(dateSlider, chart);
+    dashboard.draw(data);
+
+    //drawChart(data,options);
     //drawTable(data);
 }
 
