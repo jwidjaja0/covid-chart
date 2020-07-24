@@ -34,10 +34,50 @@ class RawData {
             this.totalActive[i] = [];
         }
 
+    } //constructor
 
+    getData(){
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+        var baseUrl = 'https://api.covid19api.com';
 
+        //indicator to populate date array, only once (first iteration), set true after so subsequent population will ignore date.
+        var isDateParsed = false;
+        for(var a = 0; a < this.totalDeaths.length; a++){
+            var country = listCountries[a];
+            var url = baseUrl + "/total/country/" + country + "?from=" + dateStart + "&to=" + dateEnd;
+            console.log(url);
 
+            //Get the json object based on parameters defined above
+            var jsonObj = JSON.parse(this.get(url));
+
+            for(var i = 0; i < jsonObj.length; i++){
+                var obj = jsonObj[i];
+                this.totalDeaths[a].push(obj.Deaths);
+                this.totalConfirmed[a].push(obj.Confirmed);
+                this.totalActive[a].push(obj.Active);
+                this.totalRecovered[a].push(obj.Recovered);
+
+                if(!isDateParsed){
+                    var date1 = obj.Date;
+                    // date1 = date1.substring(0,10);
+                    dateArr.push(date1);
+                }
+            }
+            isDateParsed = true;
+        }
     }
+
+    get(url){
+        var Httpreq = new XMLHttpRequest(); // a new request
+        Httpreq.open("GET",url,false);
+        Httpreq.send(null);
+        return Httpreq.responseText;
+    }
+
+
 }
 
 
@@ -95,10 +135,6 @@ function updateStats(){
 
 }
 
-function getRawDataJson(){
-
-}
-
 function getRawData(){
 
     var requestOptions = {
@@ -117,7 +153,7 @@ function getRawData(){
         //Get the json object based on parameters defined above
         var jsonObj = JSON.parse(Get(url));
 
-        var deathArr = new Array();
+        // var deathArr = new Array();
         for(var i = 0; i < jsonObj.length; i++){
             var obj = jsonObj[i];
             allDeaths[a].push(obj.Deaths);
