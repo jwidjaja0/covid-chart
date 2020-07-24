@@ -2,9 +2,13 @@
     font-family: Verdana;
 }
 
-body {
-    padding-top: 5rem;
+main p {
+    padding-top: 3rem;
 }
+
+/*#topnavigation{*/
+/*    padding-top: 0;*/
+/*}*/
 
 body {
     margin: 0;
