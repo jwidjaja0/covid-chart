@@ -37,7 +37,6 @@ class RawData {
 
         this.getData();
         this.numberPoints = this.Deaths[0].length;
-        console.log("end of constructor raw data");
     } //constructor
 
     getData(){
@@ -89,9 +88,10 @@ $(window).resize(function(){
 
 function updateCountries(){
     countries = $('#list-countries').val(); //get selected countries
-    allDeaths = new Array(countries.length); //update array
-    //TODO: update length of allDeaths equivalent in class
-    setChart();
+    rawData = new RawData(countries, dateStart, "");
+
+    //TODO: need to be able to change to other stats;
+    setChart("Deaths");
 }
 
 function updateStats(){
