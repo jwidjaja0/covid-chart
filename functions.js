@@ -65,8 +65,13 @@ class RawData {
 
                 if(!isDateParsed){
                     var date1 = obj.Date;
-                    // date1 = date1.substring(0,10);
-                    this.dateArr.push(date1);
+                    date1 = date1.substring(0,10);
+
+                    var yr = parseInt(date1.substring(0,4));
+                    var mnth = parseInt(date1.substring(5,7));
+                    var dt = parseInt(date1.substring(8,10));
+
+                    this.dateArr.push(new Date(yr, (mnth-1), dt));
                 }
             }
             isDateParsed = true;
@@ -107,7 +112,7 @@ var dateStart = '2020-03-15';
 var rawData = new RawData(countries, dateStart, "");
 var stat = "Deaths"; //initial stat
 
-google.charts.load('current', {packages: ['corechart', 'line', 'table']});
+google.charts.load('current', {packages: ['corechart', 'line', 'table', 'controls']});
 google.charts.setOnLoadCallback(function() {
     setChart("Deaths")
 });
@@ -115,7 +120,7 @@ google.charts.setOnLoadCallback(function() {
 
 function populateTable(stat){
     var header = rawData.listCountries.slice();
-    header.unshift('Day'); //add day to array, so country name matches exactly what was on the request
+    header.unshift('Day'); //add day to array, so country name matches exactly what was on the request array
 
     var data = new google.visualization.DataTable();
     data.addColumn('date', header[0]);
@@ -151,6 +156,20 @@ function setChart(stat) {
 
     var data = populateTable(stat);
 
+    //Test controls, create dashboard
+    var dashboard = new google.visualization.Dashboard(
+        document.getElementById("dashboard_div"));
+
+    //create range slider, passing options
+    var dateSlider = new google.visualization.ControlWrapper({
+        'controlType' : 'DateRangeFilter',
+        'containerID' : 'filter_div',
+        'options' : {
+            'filterColumnLabel': 'date'
+        },
+
+    });
+
     var options = {
         legend: {position: legPos},
         title: 'Total ' + stat.toLowerCase() + ' since ' + dateStart,
@@ -163,12 +182,31 @@ function setChart(stat) {
             title: 'Date'
         }
     };
+
+    //test controls
+    // var chart = new google.visualization.ChartWrapper({
+    //     'chartType': 'LineChart',
+    //     'containerID' : 'linechart',
+    //     'options' : {
+    //         'height' : 600,
+    //         'legend': 'bottom',
+    //         'vAxis' : {
+    //             'title': 'Total ' + stat
+    //         },
+    //         'hAxis' : {
+    //             'title': 'Date'
+    //         }
+    //     }
+    // })
+    // dashboard.bind(dateSlider, chart);
+    // dashboard.draw(data);
+
     drawChart(data,options);
     //drawTable(data);
 }
 
 function drawChart(data, options){
-    var chart = new google.visualization.LineChart(document.getElementById('linechart_material'));
+    var chart = new google.visualization.LineChart(document.getElementById('linechart'));
     chart.draw(data, options);
 }
 
