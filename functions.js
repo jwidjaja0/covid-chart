@@ -120,7 +120,7 @@ google.charts.setOnLoadCallback(function() {
 
 function populateTable(stat){
     var header = rawData.listCountries.slice();
-    header.unshift('Day'); //add day to array, so country name matches exactly what was on the request array
+    header.unshift('date'); //add day to array, so country name matches exactly what was on the request array
 
     var data = new google.visualization.DataTable();
     data.addColumn('date', header[0]);
