@@ -1,10 +1,31 @@
-.heading{
-    border: solid 10px purple;
+#header{
+    border: 2px purple solid;
     text-align: center;
 }
 
 h1{
     color: red;
+}
+
+#options{
+    border: 2px blue solid;
+    display: flex;
+    flex-direction: row;
+}
+
+.opt{
+    display: flex;
+    flex-direction: column;
+    margin: 0px 10px;
+}
+
+#list-countries{
+    /*display: flex;*/
+    /*flex-direction: column;*/
+}
+
+#stats{
+
 }
 
 
