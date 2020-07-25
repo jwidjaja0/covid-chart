@@ -1,3 +1,7 @@
+<?php
+    $ar = "hello";
+?>
+
 <!doctype html>
 <html lang="en">
 
