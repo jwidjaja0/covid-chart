@@ -20,7 +20,7 @@ session_start();
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark" id="topnavigation">
-    <a class="navbar-brand" href="#">Covid Chart</a>
+    <a class="navbar-brand" href="index.php">Covid Chart</a>
 
     <div>
         <form  action="includes/login.inc.php" method="post">
@@ -30,6 +30,5 @@ session_start();
         </form>
     </div>
 
-
-<!--    <a href="signup.php">Signup</a>-->
+    <a href="signup.php">Signup</a>
 </nav>
