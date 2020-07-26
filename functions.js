@@ -1,5 +1,9 @@
 //TODO:Think about caching
 
+//list of countries interested
+var countries = ['China', 'Indonesia', 'USA', 'UK', 'Sweden', 'Italy', 'South Korea', 'Brazil', 'India', 'Spain'
+];
+
 //TEST CLASS
 class RawData {
     constructor(listCountries, startDate, endDate) {
@@ -104,9 +108,7 @@ function updateStats(){
     setChart(stat);
 }
 
-//list of countries interested
-var countries = ['USA', 'UK', 'Sweden', 'Italy', 'South Korea', 'Brazil', 'India', 'Spain'
-                    ];
+
 
 var dateStart = '2020-03-15';
 var rawData = new RawData(countries, dateStart, "");
