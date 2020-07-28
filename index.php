@@ -2,6 +2,11 @@
     require 'header.php';
 ?>
 
+<script>
+    var testFromOuside = "TestOutside";
+    var defCountries = ['sclk ']
+</script>
+
 
 <main role="main" class="container">
     <p>Data Source: John Hopkins CSSE</p>
@@ -20,7 +25,7 @@
 
     <div class="opt">
         <label for="list-countries">Countries</label>
-        <select multiple="multiple" id="list-countries">
+        <select class="sel-opt" size="6" multiple="multiple" id="list-countries">
 
         </select>
         <button onclick="updateCountries()">
@@ -38,14 +43,14 @@
         <button onclick="updateStats()">update!</button>
     </div>
 
-    <?php
-        if(isset($_SESSION['userId'])){
-            echo '<p>You are logged in!</p>';
-        }
-        else{
-            echo '<p>You are logged out!</p>';
-        }
-    ?>
+<!--    --><?php
+//        if(isset($_SESSION['userId'])){
+//            echo '<p>You are logged in!</p>';
+//        }
+//        else{
+//            echo '<p>You are logged out!</p>';
+//        }
+//    ?>
 
 
 </div>
@@ -65,8 +70,17 @@
 
         option.text = countries[i];
         listCountries.add(option);
-        listCountries.options[i].selected=true;
+        // if(defCountries.includes(countries[i])){
+        //     listCountries.options[i].selected=true;
+        // }
+
+        if(defCountries.includes(countries[i])){
+            listCountries.options[i].selected = true;
+        }
+
     }
+
+
 </script>
 
 <?php

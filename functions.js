@@ -1,13 +1,8 @@
 //TODO:Think about caching
-
-//list of countries interested
-var countries = ['China', 'Indonesia', 'USA', 'UK', 'Sweden', 'Italy', 'South Korea', 'Brazil', 'India', 'Spain'
-];
-
 //TEST CLASS
 class RawData {
     constructor(listCountries, startDate, endDate) {
-        listCountries.sort();
+        // listCountries.sort();
         this.listCountries = listCountries; //array
         this.startDate = startDate; //string
         this.endDate = endDate;
@@ -96,8 +91,9 @@ $(window).resize(function(){
 });
 
 function updateCountries(){
-    countries = $('#list-countries').val(); //get selected countries
-    rawData = new RawData(countries, dateStart, "");
+    //get selected countries
+    defCountries = $('#list-countries').val(); //get selected countries
+    rawData = new RawData(defCountries, dateStart, "");
 
     //TODO: need to be able to change to other stats;
     setChart("Deaths");
@@ -108,10 +104,15 @@ function updateStats(){
     setChart(stat);
 }
 
+//list of countries interested
+var countries = ['USA', 'UK', 'Sweden', 'Spain',
+    'Italy', 'China', 'Brazil', 'India', 'Russia', 'Pakistan', 'Indonesia'];
 
+var defCountries = countries.slice(0,5);
+console.log(defCountries);
 
 var dateStart = '2020-03-15';
-var rawData = new RawData(countries, dateStart, "");
+var rawData = new RawData(defCountries, dateStart, "");
 var stat = "Deaths"; //initial stat
 
 google.charts.load('current', {packages: ['corechart', 'line', 'table', 'controls']});
