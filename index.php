@@ -70,9 +70,6 @@
 
         option.text = countries[i];
         listCountries.add(option);
-        // if(defCountries.includes(countries[i])){
-        //     listCountries.options[i].selected=true;
-        // }
 
         if(defCountries.includes(countries[i])){
             listCountries.options[i].selected = true;

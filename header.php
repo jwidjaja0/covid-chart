@@ -19,12 +19,10 @@ session_start();
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark" id="topnavigation">
+<nav class="navbar navbar-dark bg-dark" id="topnavigation">
     <a class="navbar-brand" href="index.php">Covid Chart</a>
 
-
-
-<!--    <div>-->
+<!--    <div class="menu-login">-->
 <!--        <form  action="includes/login.inc.php" method="post">-->
 <!--            <input type="text" name="mailuid" placeholder="Username/Email">-->
 <!--            <input type="password" name="pwd" placeholder="Password">-->
