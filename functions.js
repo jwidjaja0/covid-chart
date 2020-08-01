@@ -173,9 +173,11 @@ function setChart(stat) {
     //     },
     // });
 
+    var word = "Total";
+
     var options = {
         legend: {position: legPos},
-        title: 'Total ' + stat.toLowerCase() + ' since ' + dateStart,
+        title: word + ' ' + stat.toLowerCase() + ' since ' + dateStart,
         height: 600,
         vAxis: {
             title: 'Total ' + stat,
