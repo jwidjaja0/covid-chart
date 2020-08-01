@@ -22,13 +22,13 @@ session_start();
 <nav class="navbar navbar-dark bg-dark" id="topnavigation">
     <a class="navbar-brand" href="index.php">Covid Chart</a>
 
-<!--    <div class="menu-login">-->
-<!--        <form  action="includes/login.inc.php" method="post">-->
-<!--            <input type="text" name="mailuid" placeholder="Username/Email">-->
-<!--            <input type="password" name="pwd" placeholder="Password">-->
-<!--            <button type="submit" name="login-submit">Login</button>-->
-<!--        </form>-->
-<!--        <a href="signup.php">Signup</a>-->
-<!--    </div>-->
+    <div class="menu-login">
+        <form  action="includes/login.inc.php" method="post">
+            <input type="text" name="mailuid" placeholder="Username/Email">
+            <input type="password" name="pwd" placeholder="Password">
+            <button type="submit" name="login-submit">Login</button>
+        </form>
+        <a href="signup.php">Signup</a>
+    </div>
 
 </nav>
