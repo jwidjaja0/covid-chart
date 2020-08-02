@@ -13,7 +13,9 @@ session_start();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="styles.css">
 
-    <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>-->
+    <script src="RawDataClass.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
@@ -29,6 +31,7 @@ session_start();
             <button type="submit" name="login-submit">Login</button>
         </form>
         <a href="signup.php">Signup</a>
+        <a href="includes/logout.inc.php">LogOut</a>
     </div>
 
 </nav>

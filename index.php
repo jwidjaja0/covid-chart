@@ -1,16 +1,74 @@
 <?php
     require 'header.php';
+
+    $allCountries = ['USA', 'UK', 'Sweden', 'Spain', 'Italy',
+        'China', 'Brazil', 'India', 'Russia', 'Pakistan', 'Indonesia'];
+
+    $defCountries = array_slice($allCountries, 0, 5);
+    if(isset($_SESSION['userId'])){
+        require 'includes/dbh.inc.php';
+
+        //if logged in, check if user has preference saved;
+        $sql = "SELECT COUNT(*) AS total FROM preference WHERE userID = ?";
+        $stmt = mysqli_stmt_init($conn);
+
+        if(!mysqli_stmt_prepare($stmt, $sql)){
+            header("Location:index.php/?error=sqlCountError");
+            exit();
+        }
+        else{
+            mysqli_stmt_bind_param($stmt, "i", $_SESSION['userId']);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_bind_result($stmt, $result);
+            mysqli_stmt_fetch($stmt); //get count of rows of countries for this id
+
+            if($result > 0){
+                $sql = "SELECT * FROM preference WHERE userID = ?";
+                $stmt = mysqli_stmt_init($conn);
+
+                if(!mysqli_stmt_prepare($stmt, $sql)){
+                    header("Location:index.php/?error=sqlSelectError");
+                } else{
+                    mysqli_stmt_bind_param($stmt, "i", $_SESSION['userId']);
+                    mysqli_stmt_execute($stmt);
+                    mysqli_stmt_bind_result($stmt, $id, $country);
+
+                    $defCountries = [];
+                    while(mysqli_stmt_fetch($stmt)){
+                        $defCountries[] = $country;
+                    }
+                    //preferences country now saved in $defCountries
+
+                }
+
+            }
+
+        }
+
+    }
+
 ?>
 
 <script>
-    var testFromOuside = "TestOutside";
-    var defCountries = ['sclk ']
+    var countries = <?php echo json_encode($allCountries); ?>;
+    var defCountries = <?php echo json_encode($defCountries); ?>;
 </script>
 
-
 <main role="main" class="container">
-    <p>Data Source: John Hopkins CSSE</p>
+
 </main>
+
+<div class="title">
+    <?php
+    if(isset($_SESSION['userId'])){
+        echo '<p>Welcome ' . $_SESSION['userUid'];
+        echo '</p>';
+    }
+    ?>
+    <p>Data Source: John Hopkins CSSE</p>
+</div>
+
+
 
 <div>
 
@@ -43,20 +101,24 @@
         <button onclick="updateStats()">update!</button>
     </div>
 
-<!--    --><?php
-//        if(isset($_SESSION['userId'])){
-//            echo '<p>You are logged in!</p>';
-//        }
-//        else{
-//            echo '<p>You are logged out!</p>';
-//        }
-//    ?>
+
+
+    <div id="savePref">
+<!--        <form action="includes/pref.inc.php" method="post">-->
+<!--            <button type="submit" name="pref-submit">Save Preference</button>-->
+<!--        </form>-->
+
+        <button onclick="savePref()">Save Pref</button>
+    </div>
+
+    <div id="result">
+
+    </div>
 
 
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
@@ -74,10 +136,28 @@
         if(defCountries.includes(countries[i])){
             listCountries.options[i].selected = true;
         }
-
     }
 
+    function savePref(){
+        var listCountries = document.getElementById('list-countries');
+        var selected = [];
+        for(var i = 0; i < listCountries.options.length; i++){
+            if(listCountries.options[i].selected === true){
+                selected.push(listCountries.options[i].value);
+            }
+        }
+        //selected is now filled with selected elements
+        $.ajax({
+            method: 'POST',
+            url : 'includes/pref.inc.php',
+            data : { 'selCountries[]' : selected},
+            success : function(res){
+                // console.log('ajax sent success');
+                $('#result').html(res);
+            }
+        })
 
+    }
 </script>
 
 <?php
