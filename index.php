@@ -17,16 +17,15 @@
     var stat = <?php echo json_encode($defStat); ?>;
 </script>
 
-<main role="main" class="container">
-
-</main>
-
 <div class="title">
+    <p>Welcome
     <?php
     if(isset($_SESSION['userId'])){
-        echo '<p>Welcome ' . $_SESSION['userUid'] . '</p>';
+        echo  $_SESSION['userUid'] . '!';
     }
+    else echo 'guest!';
     ?>
+    </p>
     <p>Data Source: John Hopkins CSSE</p>
 </div>
 
@@ -80,12 +79,14 @@
 
 <script src="functions.js"></script>
 <script>
+
+    //add countries to select
     var listCountries = document.getElementById('list-countries');
 
     for(var i = 0; i < countries.length; i++){
         var option = document.createElement('option');
-        option.value = countries[i];
 
+        option.value = countries[i];
         option.text = countries[i];
         listCountries.add(option);
 
@@ -94,10 +95,16 @@
         }
     }
 
+    //highlight selected stat
+    //var stat has the stat we want to highlight
+    for (var option of document.getElementById("stats").options) {
+        if(option.value == stat){
+            option.selected = true;
+        }
+    }
+
     function savePref(){
         var statpref = $('#stats').val();
-
-
         var listCountries = document.getElementById('list-countries');
         var selected = [];
         for(var i = 0; i < listCountries.options.length; i++){
@@ -112,7 +119,8 @@
             data : { 'selCountries[]' : selected, 'statPref' : statpref},
             success : function(res){
                 // console.log('ajax sent success');
-                $('#result').html(res);
+                // $('#result').html(res);
+                alert(res);
             }
         })
     }

@@ -30,8 +30,18 @@ session_start();
             <input type="password" name="pwd" placeholder="Password">
             <button type="submit" name="login-submit">Login</button>
         </form>
-        <a href="signup.php">Signup</a>
-        <a href="includes/logout.inc.php">LogOut</a>
+
+
+        <?php
+            if(isset($_SESSION['userId'])){
+                echo '<a href="includes/logout.inc.php">LogOut</a>';
+            }
+            else{
+                echo '<a href="signup.php">Signup</a>';
+            }
+        ?>
+
+
     </div>
 
 </nav>

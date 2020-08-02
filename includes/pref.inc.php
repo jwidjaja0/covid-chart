@@ -11,6 +11,7 @@ else{
 
     if(isset($_POST['selCountries'])){
         $listC = $_POST['selCountries'];
+        $sPref = $_POST['statPref'];
         $userID = $_SESSION['userId'];
 
         //insert to database
@@ -40,7 +41,27 @@ else{
             }
         }
 
-        //TODO:insert stat pref (deaths, recovered, etc) to database
+        //delete previous preference
+        $sql = "DELETE FROM statPref WHERE userID = ?";
+        $stmt = mysqli_stmt_init($conn);
+        if(!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location:../index.php?error=prefDel2Error");
+            exit();
+        } else{
+            mysqli_stmt_bind_param($stmt, 'i', $userID);
+            mysqli_stmt_execute($stmt);
+        }
+
+        //insert stat preference
+        $sql = "INSERT INTO statPref (userID, stat) VALUES (?,?)";
+        $stmt = mysqli_stmt_init($conn);
+        if(!mysqli_stmt_prepare($stmt,$sql)) {
+            header("Location:../index.php?error=sprefInsError");
+            exit();
+        } else {
+            mysqli_stmt_bind_param($stmt, 'is', $userID, $sPref);
+            mysqli_stmt_execute($stmt);
+        }
 
         echo 'Preference updated';
 
