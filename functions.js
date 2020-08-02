@@ -28,11 +28,11 @@ function updateStats(){
 
 var dateStart = '2020-03-15';
 var rawData = new RawData(defCountries, dateStart, "");
-var stat = "Deaths"; //initial stat
+// var stat = "Deaths"; //initial stat
 
 google.charts.load('current', {packages: ['corechart', 'line', 'table', 'controls']});
 google.charts.setOnLoadCallback(function() {
-    setChart("Deaths")
+    setChart(stat)
 });
 
 
@@ -75,19 +75,6 @@ function setChart(stat) {
 
     var data = populateTable(stat);
 
-    // //Test controls, create dashboard
-    // var dashboard = new google.visualization.Dashboard(
-    //     document.getElementById("dashboard_div"));
-
-    // //create range slider, passing options
-    // var dateSlider = new google.visualization.ControlWrapper({
-    //     'controlType' : 'DateRangeFilter',
-    //     'containerID' : 'filter_div',
-    //     'options' : {
-    //         'filterColumnLabel': 'date'
-    //     },
-    // });
-
     var word = "Total";
 
     var options = {
@@ -102,26 +89,6 @@ function setChart(stat) {
             title: 'Date'
         }
     };
-
-    //test controls
-    // var chart = new google.visualization.ChartWrapper({
-    //     chartType : 'LineChart',
-    //     containerID : 'linechart',
-    //     dataTable : data,
-    //     options : {
-    //         'height' : 600,
-    //         'legend': 'bottom',
-    //         'vAxis' : {
-    //             'title': 'Total ' + stat
-    //         },
-    //         'hAxis' : {
-    //             'title': 'Date'
-    //         }
-    //     }
-    // })
-
-    // dashboard.bind(dateSlider, chart);
-    // dashboard.draw(data);
 
     drawChart(data,options);
     //drawTable(data);

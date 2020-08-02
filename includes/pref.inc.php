@@ -40,6 +40,8 @@ else{
             }
         }
 
+        //TODO:insert stat pref (deaths, recovered, etc) to database
+
         echo 'Preference updated';
 
     }

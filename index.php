@@ -5,6 +5,7 @@
         'China', 'Brazil', 'India', 'Russia', 'Pakistan', 'Indonesia'];
 
     $defCountries = array_slice($allCountries, 0, 5);
+    $defStat = "Deaths";
     if(isset($_SESSION['userId'])){
         require 'loadPref.php';
     }
@@ -13,6 +14,7 @@
 <script>
     var countries = <?php echo json_encode($allCountries); ?>;
     var defCountries = <?php echo json_encode($defCountries); ?>;
+    var stat = <?php echo json_encode($defStat); ?>;
 </script>
 
 <main role="main" class="container">
@@ -93,6 +95,9 @@
     }
 
     function savePref(){
+        var statpref = $('#stats').val();
+
+
         var listCountries = document.getElementById('list-countries');
         var selected = [];
         for(var i = 0; i < listCountries.options.length; i++){
@@ -104,13 +109,12 @@
         $.ajax({
             method: 'POST',
             url : 'includes/pref.inc.php',
-            data : { 'selCountries[]' : selected},
+            data : { 'selCountries[]' : selected, 'statPref' : statpref},
             success : function(res){
                 // console.log('ajax sent success');
                 $('#result').html(res);
             }
         })
-
     }
 </script>
 
