@@ -7,7 +7,7 @@
     $defCountries = array_slice($allCountries, 0, 5);
     $defStat = "Deaths";
     if(isset($_SESSION['userId'])){
-        require 'loadPref.inc.php';
+        require 'includes/loadPref.inc.php';
     }
 ?>
 
