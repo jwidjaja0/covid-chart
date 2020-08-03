@@ -22,7 +22,7 @@ $dbnm = $sub2[1];
 //echo 'serv: ' . $serv . "\n";
 //echo 'db name: ' . $dbnm . "\n";
 
-$conn = mysqli_connect($servername, $dBUsername, $dBPassword, $dBName);
+$conn = mysqli_connect($serv, $dbusername, $dbpw, $dbnm);
 
 if(!$conn){
     die("Connection failed: " . mysqli_connect_error());
