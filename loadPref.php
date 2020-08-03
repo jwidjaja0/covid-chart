@@ -1,6 +1,6 @@
 <?php
 
-require 'includes/dbh.inc.php';
+require 'includes/dbhlocal.inc.php';
 
 //if logged in, check if user has preference saved;
 $sql = "SELECT COUNT(*) AS total FROM preference WHERE userID = ?";

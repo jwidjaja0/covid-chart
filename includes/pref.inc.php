@@ -2,7 +2,7 @@
 
 session_start();
 
-require 'dbh.inc.php';
+require 'dbhlocal.inc.php';
 
 if(!isset($_SESSION['userId'])){
     echo '<script>alert("Please log in to save preference!");</script>';
