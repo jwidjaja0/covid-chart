@@ -1,6 +1,6 @@
 <?php
 
-require 'includes/dbhlocal.inc.php';
+require 'selectdbh.inc.php';
 
 //if logged in, check if user has preference saved;
 $sql = "SELECT COUNT(*) AS total FROM preference WHERE userID = ?";
@@ -21,7 +21,7 @@ else{
         $stmt = mysqli_stmt_init($conn);
 
         if(!mysqli_stmt_prepare($stmt, $sql)){
-            header("Location:index.php?error=sqlSelectError");
+            header("Location:../index.php?error=sqlSelectError");
             exit();
         } else{
             mysqli_stmt_bind_param($stmt, "i", $_SESSION['userId']);
@@ -45,7 +45,7 @@ $sql = "SELECT * FROM statPref WHERE userID = ?";
 $stmt = mysqli_stmt_init($conn);
 
 if(!mysqli_stmt_prepare($stmt, $sql)){
-    header("Location:index.php?error=sqlSelectError");
+    header("Location:../index.php?error=sqlSelectError");
     exit();
 } else{
     mysqli_stmt_bind_param($stmt, 'i', $_SESSION['userId']);
