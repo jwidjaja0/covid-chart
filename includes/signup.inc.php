@@ -1,7 +1,7 @@
 <?php
     if(isset($_POST['signup-submit'])) {
 
-        require 'dbhlocal.inc.php';
+        require 'selectdbh.inc.php';
 
         $username = $_POST['uid'];
         $email = $_POST['mail'];
@@ -65,7 +65,7 @@
 
                         mysqli_stmt_bind_param($stmt, "sss", $username, $email, $hashedPwd);
                         mysqli_stmt_execute($stmt);
-                        header("Location:../signup.php?signup=success");
+                        header("Location:../index.php?signup=success");
                         exit();
 
                     }
